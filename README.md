@@ -1,4 +1,4 @@
-## Thanks a Lot to Prawito Hudoro for learning about MERN
+# Thanks a Lot to Prawito Hudoro for learning about MERN
 
 # Apa yang aku pelajari dari project ini adalah
 
