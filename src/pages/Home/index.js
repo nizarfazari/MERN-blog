@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { BlogItem, Button, Gap } from "../../component";
 import { useNavigate } from "react-router-dom";
 import "./home.scss";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 import { useDispatch, useSelector } from "react-redux";
 import { setDataBlog } from "../../config/Redux/action";
+import Axios from "axios";
 
 const Home = () => {
   //react hook
@@ -15,7 +18,6 @@ const Home = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.log(page);
   useEffect(() => {
     dispatch(setDataBlog(counter));
   }, [counter, dispatch]);
@@ -28,15 +30,42 @@ const Home = () => {
   const next = () => {
     SetCounter(counter === page.total_page ? page.total_page : counter + 1);
   };
+
+  const confirmDelete = (id) => {
+    confirmAlert({
+      title: "Confirm to submit",
+      message: "Apakah anda yakin ingin menghapusnya",
+      buttons: [
+        {
+          label: "Ya",
+          onClick: () => {
+            Axios.delete(`http://localhost:4000/v1/blog/post/${id}`)
+              .then((res) => {
+                console.log("succes delete data = ", res.data);
+                dispatch(setDataBlog(counter));
+              })
+              .catch((err) => {
+                console.log("err = ", err);
+              });
+          },
+        },
+        {
+          label: "Tidak",
+          onClick: () => alert("Click No"),
+        },
+      ],
+    });
+  };
+
   return (
     <div className="home-page-wrapper">
       <div className="create-wrapper">
-        <Button title="create blog" onClick={() => navigate("/create-blog")} />
+        <Button title="create blog" onClick={() => navigate("/create-blog/")} />
       </div>
       <Gap height={20} />
       <div className="content-wrapper">
         {datablogs.map((blog) => {
-          return <BlogItem key={blog._id} image={`http://localhost:4000/${blog.image}`} title={blog.title} body={blog.body} date={blog.createdAt} name={blog.author.name} />;
+          return <BlogItem key={blog._id} image={`http://localhost:4000/${blog.image}`} title={blog.title} body={blog.body} date={blog.createdAt} name={blog.author.name} id={blog._id} onDelete={confirmDelete} />;
         })}
       </div>
       <div className="pagination">

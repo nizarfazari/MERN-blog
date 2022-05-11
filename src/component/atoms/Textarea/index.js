@@ -1,9 +1,10 @@
 import React from "react";
 import "./Textarea.scss";
 
-const Textarea = ({ ...rest }) => {
+const Textarea = ({ label, ...rest }) => {
   return (
     <div>
+      <p className="label">{label}</p>
       <textarea className="text-area" {...rest}></textarea>
     </div>
   );

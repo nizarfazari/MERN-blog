@@ -8,8 +8,9 @@ const Routing = () => {
       <Routes>
         <Route path="/" element={<LayoutsWithNavbar />}>
           <Route path="/" element={<Home />} />
-          <Route path="/create-blog" element={<CreateBlog />} />
-          <Route path="/detail-blog" element={<DetailBlog />} />
+          <Route path="/create-blog/:id" element={<CreateBlog />} />
+          <Route path="/create-blog/" element={<CreateBlog />} />
+          <Route path="/detail-blog/:id" element={<DetailBlog />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
